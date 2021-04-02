@@ -13,9 +13,10 @@ const onClick = (event) => {
 };
 
 const colors = {
-  primary: "text-black bg-cyan border-cyan" ,
-  secondary: "text-blue bg-white border-cyan" ,
-  google: "text-dark-blue bg-white border-dark-blue" ,
+  primary: "text-black bg-cyan border-cyan",
+  'primary-outline': "text-black bg-white border-cyan",
+  secondary: "text-blue bg-white border-cyan",
+  google: "text-dark-blue bg-white border-dark-blue",
 };
 
 $: color = colors[type] || colors.secondary;

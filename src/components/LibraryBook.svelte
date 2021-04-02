@@ -45,7 +45,8 @@ const getBookTags = (book, user) => {
         disabled="{!user}"
         title="Feature is not available yet">Rent the book</Button>
     {:else if userHasRentedBook(user, book)}
-      <Button title="Feature is not available yet">Return the book</Button>
+      <Button type="primary-outline" title="Feature is not available yet"
+        >Return the book</Button>
     {:else}
       <Button
         type="secondary"
