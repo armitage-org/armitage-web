@@ -27,11 +27,10 @@ const getBookTags = (book, user) => {
   } else if (userHasRentedBook(user, book)) {
     return [{ color: "blue", text: "Rented by You" }];
   } else {
-    // TODO - we need user name but currently only have user_id
     return [
       {
         color: "pink",
-        text: `Rented by ${book.mostRecentRent.user_id}`,
+        text: `Rented by ${book.mostRecentRent.user.name}`,
       },
     ];
   }
