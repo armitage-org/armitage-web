@@ -17,6 +17,13 @@ const rentBook = (book) => {
   bookshelf.refresh();
 };
 
+const returnBook = (book) => {
+  apiClient.service("rentals").update(book.mostRecentRent.id, {
+    returnedAt: new Date().toISOString(),
+  });
+  bookshelf.refresh();
+};
+
 const userHasRentedBook = (user, book) => {
   return user && book.mostRecentRent.user_id === user.id;
 };
@@ -40,12 +47,10 @@ const getBookTags = (book, user) => {
 <Book user="{user}" book="{book}" tags="{tags}">
   <span slot="extra">
     {#if book.available}
-      <Button
-        on:click="{() => rentBook(book)}"
-        disabled="{!user}"
-        title="Feature is not available yet">Rent the book</Button>
+      <Button on:click="{() => rentBook(book)}" disabled="{!user}"
+        >Rent the book</Button>
     {:else if userHasRentedBook(user, book)}
-      <Button type="primary-outline" title="Feature is not available yet"
+      <Button type="primary-outline" on:click="{() => returnBook(book)}"
         >Return the book</Button>
     {:else}
       <Button
