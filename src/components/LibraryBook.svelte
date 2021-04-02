@@ -10,15 +10,15 @@ export let book;
 $: user = $auth.user;
 $: tags = getBookTags(book, user);
 
-const rentBook = (book) => {
-  apiClient
+const rentBook = async (book) => {
+  await apiClient
     .service("rentals")
     .create({ user_id: $auth.user.id, book_id: book.id });
   bookshelf.refresh();
 };
 
-const returnBook = (book) => {
-  apiClient.service("rentals").update(book.mostRecentRent.id, {
+const returnBook = async (book) => {
+  await apiClient.service("rentals").update(book.mostRecentRent.id, {
     returnedAt: new Date().toISOString(),
   });
   bookshelf.refresh();
