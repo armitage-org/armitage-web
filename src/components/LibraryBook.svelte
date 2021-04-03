@@ -10,10 +10,17 @@ export let book;
 $: user = $auth.user;
 $: tags = getBookTags(book, user);
 
-const rentBook = (book) => {
-  apiClient
+const rentBook = async (book) => {
+  await apiClient
     .service("rentals")
     .create({ user_id: $auth.user.id, book_id: book.id });
+  bookshelf.refresh();
+};
+
+const returnBook = async (book) => {
+  await apiClient.service("rentals").update(book.mostRecentRent.id, {
+    returnedAt: new Date().toISOString(),
+  });
   bookshelf.refresh();
 };
 
@@ -27,26 +34,24 @@ const getBookTags = (book, user) => {
   } else if (userHasRentedBook(user, book)) {
     return [{ color: "blue", text: "Rented by You" }];
   } else {
-    // TODO - we need user name but currently only have user_id
     return [
       {
         color: "pink",
-        text: `Rented by ${book.mostRecentRent.user_id}`,
+        text: `Rented by ${book.mostRecentRent.user.name}`,
       },
     ];
   }
 };
 </script>
 
-<Book user="{user}" book="{book}" tags="{tags}">
+<Book book="{book}" tags="{tags}">
   <span slot="extra">
     {#if book.available}
-      <Button
-        on:click="{() => rentBook(book)}"
-        disabled="{!user}"
-        title="Feature is not available yet">Rent the book</Button>
+      <Button on:click="{() => rentBook(book)}" disabled="{!user}"
+        >Rent the book</Button>
     {:else if userHasRentedBook(user, book)}
-      <Button title="Feature is not available yet">Return the book</Button>
+      <Button type="primary-outline" on:click="{() => returnBook(book)}"
+        >Return the book</Button>
     {:else}
       <Button
         type="secondary"
