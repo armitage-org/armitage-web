@@ -4,8 +4,8 @@ import { createEventDispatcher } from "svelte";
 // primary | secondary | google
 export let type = "primary";
 export let disabled = false;
-export let element;
-export let title;
+export let element = null;
+export let title = '';
 
 const dispatch = createEventDispatcher();
 const onClick = (event) => {

@@ -44,7 +44,7 @@ const getBookTags = (book, user) => {
 };
 </script>
 
-<Book user="{user}" book="{book}" tags="{tags}">
+<Book book="{book}" tags="{tags}">
   <span slot="extra">
     {#if book.available}
       <Button on:click="{() => rentBook(book)}" disabled="{!user}"

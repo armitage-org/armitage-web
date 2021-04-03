@@ -3,7 +3,7 @@ import { createEventDispatcher } from "svelte";
 
 export let defaultChecked = false;
 export let label;
-export let name;
+export let name = null;
 
 const dispatch = createEventDispatcher();
 const onChange = (event) => dispatch("change", event);
